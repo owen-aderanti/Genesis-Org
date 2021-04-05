@@ -1,0 +1,6 @@
+<apex:page controller="TestEntryController" action="{!setRecord}" renderAs="PDF">
+    <h1>
+        Test Link: <a href="{!linkURL}">click here</a> to accept this proposal.
+    </h1>
+    
+</apex:page>

@@ -1,0 +1,87 @@
+.THIS {
+}
+
+/* Custom Styles */
+
+.THIS #modal-content-id-1{
+    min-height:50%;
+}
+
+.THIS .customInputs{
+    float: left;
+    width: 16.66%;
+    padding:10px;
+}
+
+.THIS .customDropdowns{
+    float: left;
+    width:16.66%;
+    padding:10px;
+}
+
+.THIS .myInputs{
+    padding-top:5%;
+}
+
+.THIS input{
+    font-weight: bold !important;
+}
+
+.THIS label{
+    font-weight:bold !important;
+}
+
+.THIS .checker{
+    max-height:32px !important;
+}
+
+.THIS .lastOne{
+    margin-bottom:10%;
+}
+
+.THIS .addLinesButton{
+    float: left;
+}
+
+.THIS .bigBox{
+    padding-left:3%;
+    padding-right:3%;
+    background-color: #DFEEE7;
+}
+
+/* Dropdown Styles */
+
+.THIS .verticalAlign {
+	cursor: pointer;
+	margin: 6px 0px 0px 6px!important;
+}
+ 
+.THIS .fullWidth {
+	width: 100% !important;
+}
+ 
+.THIS .recordListBox {
+	margin-top:0px !important;
+	overflow-y: scroll;
+}
+ 
+.THIS .inputBox input {
+	padding-left: 20px;
+}
+ 
+.THIS .inputIcon {
+	z-index: 99;
+}
+ 
+/* For Scrolling */
+.THIS ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+.THIS ::-webkit-scrollbar-track {
+   display: none !important;
+}
+.THIS ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0,0,0,0.4);
+}
