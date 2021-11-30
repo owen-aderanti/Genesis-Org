@@ -1,0 +1,19 @@
+.mySpecialArticle {
+    height: 100%;
+}
+
+.mySpecialBody {
+    overflow: auto;
+}
+
+.buttons-aligned_left {
+    float: left;
+}
+
+.buttons-aligned_right {
+    text-align: right;
+}
+
+.align-text_center {
+    text-align: center;
+}

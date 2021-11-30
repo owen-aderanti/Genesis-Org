@@ -1,0 +1,99 @@
+<template>
+    <article class="slds-card mySpecialArticle">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate mySpecialHeader">
+                <div class="slds-media__figure">
+                    <lightning-icon
+                        icon-name="custom:custom18" 
+                        alternative-text="Time Log">
+                    </lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title align-text_center">
+                        <span style="font-size: 20px;"> Track Time </span>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <lightning-button
+                        label="View Details"
+                        title="View Details"
+                        variant="brand-outline"
+                        onclick={ViewDetails}>
+                    </lightning-button>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner mySpecialBody">
+            <lightning-layout multiple-rows="true">
+
+                <!-- HEADINGS -->
+                <lightning-layout-item size="3"><strong style="font-size: 16px;">Task</strong></lightning-layout-item>
+
+                <lightning-layout-item size="1"><strong style="font-size: 16px;">Billable</strong></lightning-layout-item>
+
+                <lightning-layout-item size="1"><strong style="font-size: 16px;">Mon</strong></lightning-layout-item>
+
+                <lightning-layout-item size="1"><strong style="font-size: 16px;">Tue</strong></lightning-layout-item>
+
+                <lightning-layout-item size="1"><strong style="font-size: 16px;">Wed</strong></lightning-layout-item>
+
+                <lightning-layout-item size="1"><strong style="font-size: 16px;">Thu</strong></lightning-layout-item>
+
+                <lightning-layout-item size="1"><strong style="font-size: 16px;">Fri</strong></lightning-layout-item>
+
+                <lightning-layout-item size="1"><strong style="font-size: 16px;">Sat</strong></lightning-layout-item>
+
+                <lightning-layout-item size="1"><strong style="font-size: 16px;">Sun</strong></lightning-layout-item>
+
+                <lightning-layout-item size="1"><strong style="font-size: 16px;">Status</strong></lightning-layout-item>
+
+                <lightning-layout-item size="12">
+                    <span style="display: block; height: 10px;">
+                        <!-- insert code here -->
+                    </span>
+                </lightning-layout-item>
+
+                <template for:each={TimeLogs} for:item="record">
+                    <lightning-layout-item key={record.Id} size="12">
+                        <div style="margin-top: 5px; margin-bottom: 5px;">
+                            <c-time-log-item 
+                                record={record}>
+                            </c-time-log-item>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+
+            </lightning-layout>
+        </div>
+        <footer class="slds-card__footer mySpecialFooter">
+            <div class="buttons-aligned_left">
+                <lightning-button
+                    label="Create New Line"
+                    title="Create New Line"
+                    variant="brand-outline"
+                    onclick={CreateNewLine}>
+                </lightning-button>
+            </div>
+
+            <div class="buttons-aligned_right">
+                <lightning-button
+                    label="Save Track Entries"
+                    title="Save Track Entries"
+                    variant="success"
+                    onclick={SaveLines}>
+                </lightning-button>
+
+                &nbsp;
+                &nbsp;
+                &nbsp;
+
+                <lightning-button
+                    label="Submit Time Entries"
+                    title="Submit Time Entries"
+                    variant="brand"
+                    onclick={SubmitLines}>
+                </lightning-button>
+            </div>
+        </footer>
+    </article>
+</template>

@@ -1,0 +1,88 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item size="3">
+            <strong style="font-size: 16px;">{record.Name} &nbsp; - &nbsp; {record.Id}</strong>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+            <lightning-input
+                type="checkbox"
+                value={record.owenAde__Billable__c}>
+            </lightning-input>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+            <c-time-log-detail 
+                record-id={record.Id}
+                notes-field="owenAde__Mon_Notes__c"
+                hours-field="owenAde__Mon_Hours__c"
+                time-comment={record.owenAde__Mon_Notes__c}
+                time-hours={record.owenAde__Mon_Hours__c}>
+            </c-time-log-detail>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+            <c-time-log-detail 
+                record-id={record.Id}
+                notes-field="owenAde__Tue_Notes__c"
+                hours-field="owenAde__Tue_Hours__c"
+                time-comment={record.owenAde__Tue_Notes__c}
+                time-hours={record.owenAde__Tue_Hours__c}>
+            </c-time-log-detail>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+            <c-time-log-detail 
+                record-id={record.Id}
+                notes-field="owenAde__Wed_Notes__c"
+                hours-field="owenAde__Wed_Hours__c"
+                time-comment={record.owenAde__Wed_Notes__c}
+                time-hours={record.owenAde__Wed_Hours__c}>
+            </c-time-log-detail>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+            <c-time-log-detail 
+                record-id={record.Id}
+                notes-field="owenAde__Thu_Notes__c"
+                hours-field="owenAde__Thu_Hours__c"
+                time-comment={record.owenAde__Thu_Notes__c}
+                time-hours={record.owenAde__Thu_Hours__c}>
+            </c-time-log-detail>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+            <c-time-log-detail 
+                record-id={record.Id}
+                notes-field="owenAde__Fri_Notes__c"
+                hours-field="owenAde__Fri_Hours__c"
+                time-comment={record.owenAde__Fri_Notes__c}
+                time-hours={record.owenAde__Fri_Hours__c}>
+            </c-time-log-detail>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+            <c-time-log-detail 
+                record-id={record.Id}
+                notes-field="owenAde__Sat_Notes__c"
+                hours-field="owenAde__Sat_Hours__c"
+                time-comment={record.owenAde__Sat_Notes__c}
+                time-hours={record.owenAde__Sat_Hours__c}>
+            </c-time-log-detail>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+            <c-time-log-detail 
+                record-id={record.Id}
+                notes-field="owenAde__Sun_Notes__c"
+                hours-field="owenAde__Sun_Hours__c"
+                time-comment={record.owenAde__Sun_Notes__c}
+                time-hours={record.owenAde__Sun_Hours__c}>
+            </c-time-log-detail>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+            <span style="font-size: 18px;">{record.owenAde__Approval_Status__c}</span>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

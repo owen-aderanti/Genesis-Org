@@ -1,0 +1,25 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item size="6">
+            <lightning-input 
+                type="number"
+                value={timeHours}
+                variant="label-hidden"
+                step="0.01">
+            </lightning-input>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="1">
+            <!-- insert code here -->
+        </lightning-layout-item>
+
+        <lightning-layout-item size="5">
+            <lightning-button-icon
+                onclick={DisplayCommentBox}
+                icon-name="utility:chat"
+                alternative-text="Open Comment Box">
+            </lightning-button-icon>
+        </lightning-layout-item>
+    </lightning-layout>
+    
+</template>
