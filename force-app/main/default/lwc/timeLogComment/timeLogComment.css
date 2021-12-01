@@ -1,0 +1,12 @@
+:host {
+    --sds-c-textarea-sizing-min-height: 100px;
+}
+
+.textMargin {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.bodyColour {
+    background-color: #CACACA;
+}

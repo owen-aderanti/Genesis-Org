@@ -1,3 +1,12 @@
+<!--
+ * Created by Glic-Tech Ltd on 30-11-2021.
+ *
+ * Lightning Web Component Name: c-time-log-detail.
+ *
+ * Description: Displays Hours and Comment box on the Time Log.
+ *
+ * Last modified by Owen in Glic-Tech on 01-12-2021.
+-->
 <template>
     <lightning-layout>
         <lightning-layout-item size="6">
@@ -5,7 +14,9 @@
                 type="number"
                 value={timeHours}
                 variant="label-hidden"
-                step="0.01">
+                step="0.01"
+                onchange={UpdateHours}
+                onblur={FireHoursSave}>
             </lightning-input>
         </lightning-layout-item>
 
@@ -14,12 +25,30 @@
         </lightning-layout-item>
 
         <lightning-layout-item size="5">
-            <lightning-button-icon
-                onclick={DisplayCommentBox}
-                icon-name="utility:chat"
-                alternative-text="Open Comment Box">
-            </lightning-button-icon>
+            <template if:true={IsCommentPopulated}>
+                <lightning-button-icon
+                    onclick={DisplayCommentBox}
+                    icon-name="utility:chat" 
+                    variant="brand"
+                    alternative-text="Open Comment Box">
+                </lightning-button-icon>
+            </template>
+
+            <template if:false={IsCommentPopulated}>
+                <lightning-button-icon
+                    onclick={DisplayCommentBox}
+                    icon-name="utility:chat"
+                    alternative-text="Open Comment Box">
+                </lightning-button-icon>
+            </template>
+            
         </lightning-layout-item>
     </lightning-layout>
     
+    <template if:true={OpenCommentBox}>
+        <c-time-log-comment
+            time-comment={timeComment}
+            onitemclose={FireCommentBox}>
+        </c-time-log-comment>
+    </template>
 </template>

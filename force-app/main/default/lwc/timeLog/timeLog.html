@@ -1,5 +1,14 @@
+<!--
+ * Created by Glic-Tech Ltd on 30-11-2021.
+ *
+ * Lightning Web Component Name: c-time-log.
+ *
+ * Description: Displays the Time Log screen for Tracking Time.
+ *
+ * Last modified by Owen in Glic-Tech on 01-12-2021.
+-->
 <template>
-    <article class="slds-card mySpecialArticle">
+    <article class="slds-card mySpecialArticle outerColour">
         <div class="slds-card__header slds-grid">
             <header class="slds-media slds-media_center slds-has-flexi-truncate mySpecialHeader">
                 <div class="slds-media__figure">
@@ -57,7 +66,8 @@
                     <lightning-layout-item key={record.Id} size="12">
                         <div style="margin-top: 5px; margin-bottom: 5px;">
                             <c-time-log-item 
-                                record={record}>
+                                record={record}
+                                onitemupdate={RetrieveTimeLogs}>
                             </c-time-log-item>
                         </div>
                     </lightning-layout-item>
@@ -76,12 +86,12 @@
             </div>
 
             <div class="buttons-aligned_right">
-                <lightning-button
+                <!--<lightning-button
                     label="Save Track Entries"
                     title="Save Track Entries"
                     variant="success"
                     onclick={SaveLines}>
-                </lightning-button>
+                </lightning-button>-->
 
                 &nbsp;
                 &nbsp;

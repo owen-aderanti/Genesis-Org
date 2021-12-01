@@ -4,6 +4,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
 
 import SeedData from '@salesforce/apex/TimeLog_con.SeedData';
+import RetrieveTimeLogRecords from '@salesforce/apex/TimeLog_con.RetrieveTimeLogRecords';
 import CreateNewTimeLogRecord from '@salesforce/apex/TimeLog_con.CreateNewTimeLogRecord';
 
 export default class TimeLog extends LightningElement {
@@ -154,5 +155,25 @@ export default class TimeLog extends LightningElement {
     */
     ViewDetails() {
         this.OpenViewDetails = !this.OpenViewDetails;
+    }
+
+    /*
+    * Description: Retrieve fresh list of Time Log records from Database.
+    *
+    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    */
+    RetrieveTimeLogs() {
+        var resourceId = this.ResourceId;
+        var weekDate = this.WeekStartDate;
+
+        var that = this;
+
+        RetrieveTimeLogRecords({ weekDate: weekDate, resourceId: resourceId }).then(res => {
+            if( res ){
+                var data = JSON.parse( res );
+
+                that.TimeLogs = data;
+            }
+        });
     }
 }

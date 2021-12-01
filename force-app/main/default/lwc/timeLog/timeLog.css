@@ -4,6 +4,7 @@
 
 .mySpecialBody {
     overflow: auto;
+    
 }
 
 .buttons-aligned_left {
@@ -16,4 +17,8 @@
 
 .align-text_center {
     text-align: center;
+}
+
+.outerColour {
+    background-color: #CACACA;
 }

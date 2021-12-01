@@ -3,7 +3,7 @@
  *
  * Description: Controller class for Time Log lwc.
  *
- * Last modified on 30-11-2021.
+ * Last modified on 01-12-2021.
 */
 public without sharing class TimeLog_con {
     //
@@ -117,8 +117,54 @@ public without sharing class TimeLog_con {
         return result;
     }
 
+    /*
+    * Description: Retrieves a list of Time Log records from the Database based on the Resource Id and Week Start Date.
+    *
+    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    */
+    @AuraEnabled
+    public static String RetrieveTimeLogRecords(String weekDate, String resourceId){
+        String result = '';
+
+        Date weekStartDate = Date.valueOf( weekDate );
+
+        result = JSON.serialize( GetTimeLogs(weekStartDate, resourceId) );
+
+        return result;
+    }
+
     //
     // --- SECTION END: timeLog lwc Methods
+    //
+
+    //
+    // --- SECTION START: timeLogDetail Methods
+    //
+
+    /*
+    * Description: Updates the Time Log Record with the Hours and Comment.
+    *
+    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    */
+    @AuraEnabled
+    public static Boolean UpdateTimeLogRecord(String recordId, String commentField, String hourField, String comment, Decimal hours){
+        Boolean result = false;
+
+        if( String.isNotBlank(recordId) ){
+            String query = 'SELECT Id, ' + commentField + ', ' + hourField + ' FROM owenAde__Time_Log__c WHERE Id =: recordId';
+
+            owenAde__Time_Log__c tl = (owenAde__Time_Log__c)Database.query(query)[0];
+            tl.put( hourField, hours );
+            tl.put( commentField, comment );
+
+            try{ update tl; result = true; } catch(Exception e){  }
+        }
+
+        return result;
+    }
+
+    //
+    // --- SECTION END: timeLogDetail Methods
     //
 
     /*

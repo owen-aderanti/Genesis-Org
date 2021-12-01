@@ -1,3 +1,12 @@
+<!--
+ * Created by Glic-Tech Ltd on 30-11-2021.
+ *
+ * Lightning Web Component Name: c-time-log-item.
+ *
+ * Description: Displays a single Time Log record on the Time Log.
+ *
+ * Last modified by Owen in Glic-Tech on 01-12-2021.
+-->
 <template>
     <lightning-layout>
         <lightning-layout-item size="3">
@@ -17,7 +26,8 @@
                 notes-field="owenAde__Mon_Notes__c"
                 hours-field="owenAde__Mon_Hours__c"
                 time-comment={record.owenAde__Mon_Notes__c}
-                time-hours={record.owenAde__Mon_Hours__c}>
+                time-hours={record.owenAde__Mon_Hours__c}
+                onitemupdate={FireUpdateEvent}>
             </c-time-log-detail>
         </lightning-layout-item>
 
@@ -27,7 +37,8 @@
                 notes-field="owenAde__Tue_Notes__c"
                 hours-field="owenAde__Tue_Hours__c"
                 time-comment={record.owenAde__Tue_Notes__c}
-                time-hours={record.owenAde__Tue_Hours__c}>
+                time-hours={record.owenAde__Tue_Hours__c}
+                onitemupdate={FireUpdateEvent}>
             </c-time-log-detail>
         </lightning-layout-item>
 
@@ -37,7 +48,8 @@
                 notes-field="owenAde__Wed_Notes__c"
                 hours-field="owenAde__Wed_Hours__c"
                 time-comment={record.owenAde__Wed_Notes__c}
-                time-hours={record.owenAde__Wed_Hours__c}>
+                time-hours={record.owenAde__Wed_Hours__c}
+                onitemupdate={FireUpdateEvent}>
             </c-time-log-detail>
         </lightning-layout-item>
 
@@ -47,7 +59,8 @@
                 notes-field="owenAde__Thu_Notes__c"
                 hours-field="owenAde__Thu_Hours__c"
                 time-comment={record.owenAde__Thu_Notes__c}
-                time-hours={record.owenAde__Thu_Hours__c}>
+                time-hours={record.owenAde__Thu_Hours__c}
+                onitemupdate={FireUpdateEvent}>
             </c-time-log-detail>
         </lightning-layout-item>
 
@@ -57,7 +70,8 @@
                 notes-field="owenAde__Fri_Notes__c"
                 hours-field="owenAde__Fri_Hours__c"
                 time-comment={record.owenAde__Fri_Notes__c}
-                time-hours={record.owenAde__Fri_Hours__c}>
+                time-hours={record.owenAde__Fri_Hours__c}
+                onitemupdate={FireUpdateEvent}>
             </c-time-log-detail>
         </lightning-layout-item>
 
@@ -67,7 +81,8 @@
                 notes-field="owenAde__Sat_Notes__c"
                 hours-field="owenAde__Sat_Hours__c"
                 time-comment={record.owenAde__Sat_Notes__c}
-                time-hours={record.owenAde__Sat_Hours__c}>
+                time-hours={record.owenAde__Sat_Hours__c}
+                onitemupdate={FireUpdateEvent}>
             </c-time-log-detail>
         </lightning-layout-item>
 
@@ -77,7 +92,8 @@
                 notes-field="owenAde__Sun_Notes__c"
                 hours-field="owenAde__Sun_Hours__c"
                 time-comment={record.owenAde__Sun_Notes__c}
-                time-hours={record.owenAde__Sun_Hours__c}>
+                time-hours={record.owenAde__Sun_Hours__c}
+                onitemupdate={FireUpdateEvent}>
             </c-time-log-detail>
         </lightning-layout-item>
 

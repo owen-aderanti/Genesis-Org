@@ -3,16 +3,16 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
 
-export default class TimeLogItem extends LightningElement {
+export default class TimeLogComment extends LightningElement {
     firstConnectedCallback = true;
     firstRenderedCallback = true;
 
-    @api record;
+    @api timeComment = "";
     
     /*
     * Description: Fires after every render of the component.
     *
-    * Last modified on 30-11-2021.
+    * Last modified by Owen in Glic-Tech on 01-12-2021.
     */
     @wire(CurrentPageReference)
     params( pageRef ) {
@@ -24,7 +24,7 @@ export default class TimeLogItem extends LightningElement {
     /*
     * Description: Fires when a component is inserted into the DOM.
     *
-    * Last modified on 30-11-2021.
+    * Last modified by Owen in Glic-Tech on 01-12-2021.
     */
     connectedCallback() {
         if(! this.firstConnectedCallback ){ return; }
@@ -35,7 +35,7 @@ export default class TimeLogItem extends LightningElement {
     /*
     * Description: Fires after every render of the component.
     *
-    * Last modified on 30-11-2021.
+    * Last modified by Owen in Glic-Tech on 01-12-2021.
     */
     renderedCallback() {
         if(! this.firstRenderedCallback ){ return; }
@@ -46,7 +46,7 @@ export default class TimeLogItem extends LightningElement {
     /*
     * Description: Fires Toaster notification on the screen.
     *
-    * Last modified on 30-11-2021.
+    * Last modified by Owen in Glic-Tech on 01-12-2021.
     */
     FireToaster(title, message, variant) {
         this.dispatchEvent(
@@ -60,11 +60,38 @@ export default class TimeLogItem extends LightningElement {
     }
 
     /*
-    * Description: Fires an Update Method in the Time Log component.
+    * Description: Closes the Comment Box.
     *
     * Last modified by Owen in Glic-Tech on 01-12-2021.
     */
-    FireUpdateEvent() {
-        this.dispatchEvent( new CustomEvent('itemupdate', { detail: { } }) );
+    Close() {
+        this.dispatchEvent(
+            new CustomEvent('itemclose', {
+                detail: {
+                    closeBox: true,
+                    fireUpdate: false,
+                    updatedComment: ''
+                }
+            })
+        );
+    }
+
+    /*
+    * Description: Saves the comment.
+    *
+    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    */
+    Save() {
+        var comt = this.template.querySelector('lightning-textarea').value;
+
+        this.dispatchEvent(
+            new CustomEvent('itemclose', {
+                detail: {
+                    closeBox: true,
+                    fireUpdate: true,
+                    updatedComment: comt
+                }
+            })
+        );
     }
 }

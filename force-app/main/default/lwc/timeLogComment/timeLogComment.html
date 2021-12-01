@@ -1,0 +1,59 @@
+<!--
+ * Created by Glic-Tech Ltd on 01-12-2021.
+ *
+ * Lightning Web Component Name: c-time-log-comment.
+ *
+ * Description: Displays the Comment pop up screen on the Time Log.
+ *
+ * Last modified by Owen in Glic-Tech on 01-12-2021.
+-->
+<template>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            
+            <!-- SECTION: Header -->
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={Close}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        variant="inverse"
+                        alternative-text="Close">
+                    </lightning-icon>
+                </button>
+                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                    Comments
+                </h2>
+            </header>
+            
+            <!-- SECTION: Body -->
+            <div class="slds-modal__content slds-p-around_medium bodyColour" id="modal-content-id-1">
+                <div class="textMargin">
+                    <lightning-textarea
+                        value={timeComment}>
+                    </lightning-textarea>
+                </div>
+            </div>
+            
+            <!-- SECTION: Footer -->
+            <footer class="slds-modal__footer">
+                <button 
+                    onclick={Close}
+                    class="slds-button slds-button_neutral">
+                    Cancel
+                </button>
+                
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                
+                <button 
+                    onclick={Save}
+                    class="slds-button slds-button_brand">
+                    Save
+                </button>
+            </footer>
+        </div>
+    </section>
+    
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
