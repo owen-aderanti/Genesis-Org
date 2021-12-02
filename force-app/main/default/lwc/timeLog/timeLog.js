@@ -86,7 +86,7 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Sets the Heights of elements on the page.
     *
-    * Last modified on 30-11-2021.
+    * Last modified on 02-12-2021.
     */
     SetHeight() {
         var art1 = this.template.querySelector('.mySpecialArticle');
@@ -94,10 +94,13 @@ export default class TimeLog extends LightningElement {
         var fot1 = this.template.querySelector('.mySpecialFooter');
         var bod1 = this.template.querySelector('.mySpecialBody');
 
+        var ovr1 = this.template.querySelector('.overflowWrap');
+
         var bodyHeight = (art1.offsetHeight - ( hed1.offsetHeight + fot1.offsetHeight )) - 40; 
 
         if( (bodyHeight != -40) && (bodyHeight + "px" != bod1.style.height) ){
             bod1.style.height = bodyHeight + "px";
+            ovr1.style.height = (bodyHeight - 20) + "px";
         }
         
         setTimeout( () => {

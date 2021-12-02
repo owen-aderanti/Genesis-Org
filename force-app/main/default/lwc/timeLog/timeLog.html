@@ -33,48 +33,53 @@
             </header>
         </div>
         <div class="slds-card__body slds-card__body_inner mySpecialBody">
-            <lightning-layout multiple-rows="true">
+            <!-- HEADINGS -->
+            <div class="">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="3"><strong style="font-size: 16px;">Task</strong></lightning-layout-item>
 
-                <!-- HEADINGS -->
-                <lightning-layout-item size="3"><strong style="font-size: 16px;">Task</strong></lightning-layout-item>
+                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Billable</strong></lightning-layout-item>
 
-                <lightning-layout-item size="1"><strong style="font-size: 16px;">Billable</strong></lightning-layout-item>
+                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Mon</strong></lightning-layout-item>
 
-                <lightning-layout-item size="1"><strong style="font-size: 16px;">Mon</strong></lightning-layout-item>
+                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Tue</strong></lightning-layout-item>
 
-                <lightning-layout-item size="1"><strong style="font-size: 16px;">Tue</strong></lightning-layout-item>
+                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Wed</strong></lightning-layout-item>
 
-                <lightning-layout-item size="1"><strong style="font-size: 16px;">Wed</strong></lightning-layout-item>
+                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Thu</strong></lightning-layout-item>
 
-                <lightning-layout-item size="1"><strong style="font-size: 16px;">Thu</strong></lightning-layout-item>
+                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Fri</strong></lightning-layout-item>
 
-                <lightning-layout-item size="1"><strong style="font-size: 16px;">Fri</strong></lightning-layout-item>
+                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Sat</strong></lightning-layout-item>
 
-                <lightning-layout-item size="1"><strong style="font-size: 16px;">Sat</strong></lightning-layout-item>
+                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Sun</strong></lightning-layout-item>
 
-                <lightning-layout-item size="1"><strong style="font-size: 16px;">Sun</strong></lightning-layout-item>
+                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Status</strong></lightning-layout-item>
 
-                <lightning-layout-item size="1"><strong style="font-size: 16px;">Status</strong></lightning-layout-item>
-
-                <lightning-layout-item size="12">
-                    <span style="display: block; height: 10px;">
-                        <!-- insert code here -->
-                    </span>
-                </lightning-layout-item>
-
-                <template for:each={TimeLogs} for:item="record">
-                    <lightning-layout-item key={record.Id} size="12">
-                        <div style="margin-top: 5px; margin-bottom: 5px;">
-                            <c-time-log-item 
-                                record={record}
-                                onitemupdate={RetrieveTimeLogs}>
-                            </c-time-log-item>
-                        </div>
+                    <lightning-layout-item size="12">
+                        <span style="display: block; height: 10px;">
+                            <!-- insert code here -->
+                        </span>
                     </lightning-layout-item>
-                </template>
+                </lightning-layout>
+            </div>
 
-            </lightning-layout>
+            <div class="overflowWrap">
+                <lightning-layout multiple-rows="true">
+                    <template for:each={TimeLogs} for:item="record">
+                        <lightning-layout-item key={record.Id} size="12">
+                            <div style="margin-top: 5px; margin-bottom: 5px; border-bottom: 1px dashed black;">
+                                <c-time-log-item 
+                                    record={record}
+                                    onitemupdate={RetrieveTimeLogs}>
+                                </c-time-log-item>
+                            </div>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </div>
         </div>
+
         <footer class="slds-card__footer mySpecialFooter">
             <div class="buttons-aligned_left">
                 <lightning-button
@@ -86,17 +91,6 @@
             </div>
 
             <div class="buttons-aligned_right">
-                <!--<lightning-button
-                    label="Save Track Entries"
-                    title="Save Track Entries"
-                    variant="success"
-                    onclick={SaveLines}>
-                </lightning-button>-->
-
-                &nbsp;
-                &nbsp;
-                &nbsp;
-
                 <lightning-button
                     label="Submit Time Entries"
                     title="Submit Time Entries"
