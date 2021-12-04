@@ -3,16 +3,24 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
 
-export default class TimeLogComment extends LightningElement {
+export default class TimeLogTaskSelector extends LightningElement {
     firstConnectedCallback = true;
     firstRenderedCallback = true;
 
-    @api timeComment = "";
+    displayProjects = true;
+    diplayMilestones = false;
+    displayProjects = false;
+
+    screenHeading = "Project";
+
+    projects = [];
+
+    selectedTaskId = "";
     
     /*
     * Description: Fires after every render of the component.
     *
-    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    * Last modified on 04-12-2021.
     */
     @wire(CurrentPageReference)
     params( pageRef ) {
@@ -24,7 +32,7 @@ export default class TimeLogComment extends LightningElement {
     /*
     * Description: Fires when a component is inserted into the DOM.
     *
-    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    * Last modified on 04-12-2021.
     */
     connectedCallback() {
         if(! this.firstConnectedCallback ){ return; }
@@ -35,20 +43,18 @@ export default class TimeLogComment extends LightningElement {
     /*
     * Description: Fires after every render of the component.
     *
-    * Last modified by Owen in Glic-Tech on 04-12-2021.
+    * Last modified on 04-12-2021.
     */
     renderedCallback() {
         if(! this.firstRenderedCallback ){ return; }
         
         this.firstRenderedCallback = false;
-
-        this.template.querySelector('lightning-textarea').focus();
     }
     
     /*
     * Description: Fires Toaster notification on the screen.
     *
-    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    * Last modified on 04-12-2021.
     */
     FireToaster(title, message, variant) {
         this.dispatchEvent(
@@ -62,38 +68,20 @@ export default class TimeLogComment extends LightningElement {
     }
 
     /*
-    * Description: Closes the Comment Box.
+    * Description: fires on close event to parent component.
     *
-    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    * Last modified on 04-12-2021.
     */
-    Close() {
-        this.dispatchEvent(
-            new CustomEvent('itemclose', {
-                detail: {
-                    closeBox: true,
-                    fireUpdate: false,
-                    updatedComment: ''
-                }
-            })
-        );
+    FireOnClose() {
+        this.dispatchEvent( new CustomEvent('itemtaskclose', { detail : { } }) );
     }
 
     /*
-    * Description: Saves the comment.
+    * Description: fires on save event to parent component.
     *
-    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    * Last modified on 04-12-2021.
     */
-    Save() {
-        var comt = this.template.querySelector('lightning-textarea').value;
-
-        this.dispatchEvent(
-            new CustomEvent('itemclose', {
-                detail: {
-                    closeBox: true,
-                    fireUpdate: true,
-                    updatedComment: comt
-                }
-            })
-        );
+    FireOnSave() {
+        this.dispatchEvent( new CustomEvent('itemtasksave', { detail : { } }) );
     }
 }

@@ -5,18 +5,36 @@
  *
  * Description: Displays a single Time Log record on the Time Log.
  *
- * Last modified by Owen in Glic-Tech on 01-12-2021.
+ * Last modified by Owen in Glic-Tech on 04-12-2021.
 -->
 <template>
     <lightning-layout>
-        <lightning-layout-item size="3">
-            <strong style="font-size: 16px;">{record.Name} &nbsp; - &nbsp; {record.Id}</strong>
+        <lightning-layout-item size="2">
+            <template if:true={isTaskSelected}>
+                <strong> Selected Task goes Here !!</strong>
+            </template>
+
+            <template if:false={isTaskSelected}>
+                <strong>
+                    <a onclick={OpenTaskSelector} class="linkColour">
+                        Click Here to Select Task
+                    </a> 
+                </strong>
+
+                <template if:true={displayTaskSelector}>
+                    <c-time-log-task-selector
+                        onitemtaskclose={CloseTaskSelector}
+                        onitemtasksave={SaveTaskSelection}>
+                    </c-time-log-task-selector>
+                </template>
+            </template>
         </lightning-layout-item>
 
         <lightning-layout-item size="1">
             <lightning-input
                 type="checkbox"
-                value={record.owenAde__Billable__c}>
+                value={record.owenAde__Billable__c}
+                onblur={UpdateBillableValue}>
             </lightning-input>
         </lightning-layout-item>
 
@@ -97,8 +115,75 @@
             </c-time-log-detail>
         </lightning-layout-item>
 
-        <lightning-layout-item size="1">
-            <span style="font-size: 18px;">{record.owenAde__Approval_Status__c}</span>
+        <lightning-layout-item size="2">
+            <div class="float_left">
+                <span style="font-size: 18px;">
+                    {record.owenAde__Approval_Status__c}
+                </span>
+            </div>
+
+            <div class="align_right">
+                <lightning-button-icon
+                    onclick={DisplayDeleteWarningMessage}
+                    icon-name="utility:delete"
+                    alternative-text="Delete Time">
+                </lightning-button-icon>
+            </div>
         </lightning-layout-item>
     </lightning-layout>
+
+    <template if:true={displayWarningMessage}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                
+                <!-- SECTION: Header -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Cancel Delete" onclick={CancelDelete}>
+                        <lightning-icon
+                            icon-name="utility:close"
+                            variant="inverse"
+                            alternative-text="Cancel Delete">
+                        </lightning-icon>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                        Delete: {record.Name}
+                    </h2>
+                </header>
+                
+                <!-- SECTION: Body -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div style="margin-top: 10px; margin-bottom: 10px; text-align: center;">
+                        <p style="font-size: 20px; font-weight: bold;">
+                            Are you sure you wish to delete this time entry ? 
+                        </p>
+
+                        <p style="font-size: 16px;">
+                            This action cannot be undone.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- SECTION: Footer -->
+                <footer class="slds-modal__footer">
+                    <button 
+                        onclick={CancelDelete}
+                        class="slds-button slds-button_destructive">
+                        Cancel Delete
+                    </button>
+                    
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    
+                    <button 
+                        onclick={DeleteTimeLogItem}
+                        class="slds-button slds-button_brand">
+                        Delete Item
+                    </button>
+                </footer>
+            </div>
+        </section>
+        
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 </template>

@@ -22,3 +22,7 @@
     overflow: auto;
     width: 100%;
 }
+
+.lineBackgroundColour {
+    background-color: #A1A1A1;
+}

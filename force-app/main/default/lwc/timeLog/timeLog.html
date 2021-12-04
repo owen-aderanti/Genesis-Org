@@ -5,7 +5,7 @@
  *
  * Description: Displays the Time Log screen for Tracking Time.
  *
- * Last modified by Owen in Glic-Tech on 01-12-2021.
+ * Last modified by Owen in Glic-Tech on 04-12-2021.
 -->
 <template>
     <article class="slds-card mySpecialArticle outerColour">
@@ -36,7 +36,7 @@
             <!-- HEADINGS -->
             <div class="">
                 <lightning-layout multiple-rows="true">
-                    <lightning-layout-item size="3"><strong style="font-size: 16px;">Task</strong></lightning-layout-item>
+                    <lightning-layout-item size="2"><strong style="font-size: 16px;">Task</strong></lightning-layout-item>
 
                     <lightning-layout-item size="1"><strong style="font-size: 16px;">Billable</strong></lightning-layout-item>
 
@@ -54,7 +54,7 @@
 
                     <lightning-layout-item size="1"><strong style="font-size: 16px;">Sun</strong></lightning-layout-item>
 
-                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Status</strong></lightning-layout-item>
+                    <lightning-layout-item size="2"><strong style="font-size: 16px;">Status</strong></lightning-layout-item>
 
                     <lightning-layout-item size="12">
                         <span style="display: block; height: 10px;">
@@ -66,15 +66,28 @@
 
             <div class="overflowWrap">
                 <lightning-layout multiple-rows="true">
-                    <template for:each={TimeLogs} for:item="record">
-                        <lightning-layout-item key={record.Id} size="12">
-                            <div style="margin-top: 5px; margin-bottom: 5px; border-bottom: 1px dashed black;">
-                                <c-time-log-item 
-                                    record={record}
-                                    onitemupdate={RetrieveTimeLogs}>
-                                </c-time-log-item>
-                            </div>
-                        </lightning-layout-item>
+                    <template for:each={TimeLogs} for:item="record" for:index="idx">
+                        <template if:true={record.isEven}>
+                            <lightning-layout-item key={record.Id} size="12" class="lineBackgroundColour">
+                                <div style="margin-top: 5px; margin-bottom: 5px;">
+                                    <c-time-log-item 
+                                        record={record}
+                                        onitemupdate={RetrieveTimeLogs}>
+                                    </c-time-log-item>
+                                </div>
+                            </lightning-layout-item>
+                        </template>
+
+                        <template if:false={record.isEven}>
+                            <lightning-layout-item key={record.Id} size="12">
+                                <div style="margin-top: 5px; margin-bottom: 5px;">
+                                    <c-time-log-item 
+                                        record={record}
+                                        onitemupdate={RetrieveTimeLogs}>
+                                    </c-time-log-item>
+                                </div>
+                            </lightning-layout-item>
+                        </template>
                     </template>
                 </lightning-layout>
             </div>

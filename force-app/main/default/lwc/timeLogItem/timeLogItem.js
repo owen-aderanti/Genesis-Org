@@ -3,9 +3,17 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
 
+import UpdateTimeLogRecordBillable from '@salesforce/apex/TimeLog_con.UpdateTimeLogRecordBillable';
+import DeleteTimeLogRecord from '@salesforce/apex/TimeLog_con.DeleteTimeLogRecord';
+
 export default class TimeLogItem extends LightningElement {
     firstConnectedCallback = true;
     firstRenderedCallback = true;
+
+    displayWarningMessage = false;
+    displayTaskSelector = false;
+
+    isTaskSelected = false;
 
     @api record;
     
@@ -35,12 +43,14 @@ export default class TimeLogItem extends LightningElement {
     /*
     * Description: Fires after every render of the component.
     *
-    * Last modified on 30-11-2021.
+    * Last modified on 04-12-2021.
     */
     renderedCallback() {
         if(! this.firstRenderedCallback ){ return; }
         
         this.firstRenderedCallback = false;
+
+        this.template.querySelector("lightning-input").checked = this.record.owenAde__Billable__c;
     }
     
     /*
@@ -66,5 +76,97 @@ export default class TimeLogItem extends LightningElement {
     */
     FireUpdateEvent() {
         this.dispatchEvent( new CustomEvent('itemupdate', { detail: { } }) );
+    }
+
+    /*
+    * Description: Updates the Billable value on the Time Log record.
+    *
+    * Last modified on 04-12-2021.
+    */
+    UpdateBillableValue() {
+        var recId = this.record.Id;
+        var billableValue = this.template.querySelector("lightning-input").checked;
+
+
+        var that = this;
+
+        UpdateTimeLogRecordBillable({ recordId: recId, value: billableValue }).then(res =>{
+            if( res == true ){
+                that.FireUpdateEvent();
+            }
+
+            if( res == false ){
+                that.FireToaster("Something went wrong", "Please contact your System Administrator for more information", "error");
+            }
+        });
+    }
+
+    /*
+    * Description: Displays the Delete Warning Message.
+    *
+    * Last modified on 04-12-2021.
+    */
+    DisplayDeleteWarningMessage() {
+        this.displayWarningMessage = true;
+    }
+
+    /*
+    * Description: Hides the Delete Warning Message.
+    *
+    * Last modified on 04-12-2021.
+    */
+    CancelDelete() {
+        this.displayWarningMessage = false;
+    }
+
+    /*
+    * Description: Deletes the Time Log record from the Database.
+    *
+    * Last modified on 04-12-2021.
+    */
+    DeleteTimeLogItem() {
+        var recId = this.record.Id;
+
+        var that = this;
+
+        this.displayWarningMessage = false;
+
+        DeleteTimeLogRecord({ recordId: recId }).then(res =>{
+            if( res == true ){
+                that.FireUpdateEvent();
+            }
+
+            if( res == false ){
+                that.FireToaster("Something went wrong", "Please contact your System Administrator for more information", "error");
+            }
+        });
+    }
+
+    /*
+    * Description: Opens the Task Selector screen.
+    *
+    * Last modified by Owen in Glic-Tech on 04-12-2021.
+    */
+    OpenTaskSelector() {
+        this.displayTaskSelector = true;
+    }
+
+    /*
+    * Description: Closes the Task Selector screen.
+    *
+    * Last modified by Owen in Glic-Tech on 04-12-2021.
+    */
+    CloseTaskSelector() {
+        this.displayTaskSelector = false;
+    }
+
+    /*
+    * Description: Saves the task selected and updates the Time Log record with selected Task.
+    *
+    * Last modified by Owen in Glic-Tech on 04-12-2021.
+    */
+    SaveTaskSelection() {
+        this.displayTaskSelector = false;
+        this.isTaskSelected = true;
     }
 }

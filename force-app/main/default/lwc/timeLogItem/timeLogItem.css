@@ -1,0 +1,12 @@
+.float_left {
+    float: left;
+}
+
+.align_right {
+    text-align: right;
+}
+
+.linkColour {
+    color: black;
+    text-decoration: underline;
+}

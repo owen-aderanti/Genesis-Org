@@ -1,4 +1,4 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire, api } from 'lwc';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
@@ -6,6 +6,27 @@ import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
 import SeedData from '@salesforce/apex/TimeLog_con.SeedData';
 import RetrieveTimeLogRecords from '@salesforce/apex/TimeLog_con.RetrieveTimeLogRecords';
 import CreateNewTimeLogRecord from '@salesforce/apex/TimeLog_con.CreateNewTimeLogRecord';
+
+/*
+* Description: Creates colouring for each Time Log record.
+*
+* Last modified on 04-12-2021.
+*/
+function OrderLines(items) {
+    var newItems = [];
+    var value = false;
+
+    for( var i in items ){
+        var obj = items[i];
+        obj["isEven"] = value;
+
+        newItems.push( obj );
+
+        value = !value;
+    }
+
+    return newItems;
+}
 
 export default class TimeLog extends LightningElement {
     firstConnectedCallback = true;
@@ -33,7 +54,7 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Fires when a component is inserted into the DOM.
     *
-    * Last modified on 30-11-2021.
+    * Last modified on 04-12-2021.
     */
     connectedCallback() {
         if(! this.firstConnectedCallback ){ return; }
@@ -47,7 +68,7 @@ export default class TimeLog extends LightningElement {
                 var data = JSON.parse( res );
 
                 that.ResourceId = data.ResourceId;
-                that.TimeLogs = data.TimeLogRecords;
+                that.TimeLogs = OrderLines(data.TimeLogRecords);
                 that.WeekEndDate  = data.WeekEndDate;
                 that.WeekStartDate = data.WeekStartDate;
             }
@@ -111,13 +132,11 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Creates a new Time Log record in the system.
     *
-    * Last modified on 30-11-2021.
+    * Last modified on 04-12-2021.
     */
     CreateNewLine() {
         var resourceId = this.ResourceId;
         var weekDate = this.WeekStartDate;
-
-        console.log( 'Resource: '+ resourceId +' , Week Start Date: '+ weekDate ); 
 
         var that = this;
 
@@ -125,21 +144,9 @@ export default class TimeLog extends LightningElement {
             if( res ){
                 var data = JSON.parse( res );
 
-                that.TimeLogs = data;
-
-                console.log(that);
-                console.log(this);
+                that.TimeLogs = OrderLines(data);
             }
         })
-    }
-
-    /*
-    * Description: Saves new Time Log entries in the Database.
-    *
-    * Last modified on 30-11-2021.
-    */
-    SaveLines() {
-        // insert code here
     }
 
     /*
@@ -163,7 +170,7 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Retrieve fresh list of Time Log records from Database.
     *
-    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    * Last modified by Owen in Glic-Tech on 04-12-2021.
     */
     RetrieveTimeLogs() {
         var resourceId = this.ResourceId;
@@ -175,7 +182,7 @@ export default class TimeLog extends LightningElement {
             if( res ){
                 var data = JSON.parse( res );
 
-                that.TimeLogs = data;
+                that.TimeLogs = OrderLines(data);
             }
         });
     }

@@ -3,11 +3,11 @@
  *
  * Description: Controller class for Time Log lwc.
  *
- * Last modified on 01-12-2021.
+ * Last modified on 04-12-2021.
 */
 public without sharing class TimeLog_con {
     //
-    // --- SECTION START: timeLog lwc Methods
+    // --- SECTION START: timeLog Methods
     //
 
     /*
@@ -134,7 +134,54 @@ public without sharing class TimeLog_con {
     }
 
     //
-    // --- SECTION END: timeLog lwc Methods
+    // --- SECTION END: timeLog Methods
+    //
+
+    //
+    // --- SECTION START: timeLogItem Methods
+    //
+
+    /*
+    * Description: Updates the Billable value on the Time Log record.
+    *
+    * Last modified on 04-12-2021.
+    */
+    @AuraEnabled
+    public static Boolean UpdateTimeLogRecordBillable(String recordId, Boolean value){
+        Boolean result = false;
+
+        if( String.isNotBlank(recordId) ){
+            String query = 'SELECT Id, owenAde__Billable__c FROM owenAde__Time_Log__c WHERE Id =: recordId';
+
+            owenAde__Time_Log__c tl = (owenAde__Time_Log__c)Database.query(query)[0];
+            tl.owenAde__Billable__c = value;
+
+            try{ update tl; result = true; } catch(Exception e){  }
+        }
+
+        return result;
+    }
+
+    /*
+    * Description: Deletes Time Log record from the Database.
+    *
+    * Last modified on 04-12-2021.
+    */
+    @AuraEnabled
+    public static Boolean DeleteTimeLogRecord(String recordId){
+        Boolean result = false;
+
+        if( String.isNotBlank(recordId) ){
+            String query = 'SELECT Id FROM owenAde__Time_Log__c WHERE Id =: recordId';
+
+            try { delete Database.query(query); result = true; } catch(Exception e){  }
+        }
+
+        return result;
+    }
+
+    //
+    // --- SECTION END: timeLogItem Methods
     //
 
     //
