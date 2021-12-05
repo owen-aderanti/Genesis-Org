@@ -1,0 +1,36 @@
+<!--
+ * Created by Glic-Tech Ltd on 05-12-2021.
+ *
+ * Lightning Web Component Name: c-dynamic-pill.
+ *
+ * Description: Displays a Lightning Pill.
+ *
+ * Last modified on 05-12-2021.
+-->
+<template>
+    <div class="slds-pill_container">
+        <span class="slds-pill slds-pill_link fullWidth">
+            <!-- If Link is enabled, the following will display -->
+            <template if:true={enableLink}>
+                <a href={redirectLink} class="slds-pill__action" title={pillLabel}>
+                    <span class="slds-pill__label">{pillLabel}</span>
+                </a>
+            </template>
+            
+            <!-- If Link is not enabled, the following will display -->
+            <template if:false={enableLink}>
+                <span class="slds-pill__action">
+                    <span class="slds-pill__label colourLink">{pillLabel}</span>
+                </span>
+            </template>
+        
+            <!-- Remove Action on the Pill -->
+            <button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" title="Remove" onclick={FirePillRemove}>
+                <lightning-icon 
+                    icon-name="utility:close"
+                    alternative-text="remove task">
+                </lightning-icon>
+            </button>
+        </span>
+    </div>
+</template>

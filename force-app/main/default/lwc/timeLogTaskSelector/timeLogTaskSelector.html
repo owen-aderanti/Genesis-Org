@@ -5,7 +5,7 @@
  *
  * Description: Used to select the task time is being tracked against.
  *
- * Last modified by Owen in Glic-Tech on 04-12-2021.
+ * Last modified on 05-12-2021.
 -->
 <template>
     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
@@ -27,26 +27,102 @@
             
             <!-- SECTION: Body -->
             <div class="slds-modal__content slds-p-around_medium mySpecialBody" id="modal-content-id-1">
-                
+                <div class="slds-box mySpecialBox">
+
+                    <template if:true={displayProjects}>
+                        <template for:each={projects} for:item="item">
+
+                            <template if:true={item.isEven}>
+                                <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding lineBackgroundColour" onclick={ProjectSelected}>
+                                    <strong>{item.Name}</strong>
+                                    <p>
+                                        {item.owenAde__Project_Number__c}
+                                    </p>
+                                </div>
+                            </template>
+
+                            <template if:false={item.isEven}>
+                                <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding" onclick={ProjectSelected}>
+                                    <strong>{item.Name}</strong>
+                                    <p>
+                                        {item.owenAde__Project_Number__c}
+                                    </p>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+
+                    <template if:true={displayMilestones}>
+                        <template for:each={filteredMilestones} for:item="item">
+
+                            <template if:true={item.isEven}>
+                                <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding lineBackgroundColour" onclick={MilestoneSelected}>
+                                    <strong>{item.Name}</strong>
+                                    <p>
+                                        {item.owenAde__Project__r.owenAde__Project_Number__c}
+                                    </p>
+                                </div>
+                            </template>
+
+                            <template if:false={item.isEven}>
+                                <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding" onclick={MilestoneSelected}>
+                                    <strong>{item.Name}</strong>
+                                    <p>
+                                        {item.owenAde__Project__r.owenAde__Project_Number__c}
+                                    </p>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+
+                    <template if:true={displayTasks}>
+                        <template for:each={filteredTasks} for:item="item">
+
+                            <template if:true={item.isEven}>
+                                <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding lineBackgroundColour" onclick={TaskSelected}>
+                                    <strong>{item.Name}</strong>
+                                    <p>
+                                        {item.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c}
+                                    </p>
+                                </div>
+                            </template>
+
+                            <template if:false={item.isEven}>
+                                <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding" onclick={TaskSelected}>
+                                    <strong>{item.Name}</strong>
+                                    <p>
+                                        {item.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c}
+                                    </p>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+                </div>
             </div>
             
             <!-- SECTION: Footer -->
             <footer class="slds-modal__footer">
-                <button 
-                    onclick={FireOnClose}
-                    class="slds-button slds-button_destructive">
-                    Leave Selection
-                </button>
-                
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                
-                <button 
-                    onclick={FireOnSave}
-                    class="slds-button slds-button_brand">
-                    Save Selection
-                </button>
+                <div class="leftFloat leftAlign">
+                    <button 
+                        onclick={FireOnClose}
+                        class="slds-button slds-button_destructive">
+                        Leave Selection
+                    </button>
+                </div>
+                <div class="leftFloat centerAlign">
+                    <button
+                        onclick={PreviousButton}
+                        class="slds-button slds-button_outline-brand">
+                        Previous Page
+                    </button>
+                </div>
+                <div class="rightAlign">
+                    <button 
+                        onclick={FireOnSave}
+                        class="slds-button slds-button_brand">
+                        Save Selection
+                    </button>
+                </div>
             </footer>
         </div>
     </section>

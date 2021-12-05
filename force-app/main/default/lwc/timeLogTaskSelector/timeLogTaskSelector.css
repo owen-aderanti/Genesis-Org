@@ -1,3 +1,42 @@
 .mySpecialBody {
     height: 400px;
+    background-color: #CACACA;
+}
+
+.mySpecialBox {
+    height: 365px;
+    overflow: auto;
+    background-color: white;
+}
+
+.bottomBorder {
+    border-bottom: 1px solid black;
+}
+
+.bottomMargin {
+    margin-bottom: 5px;
+}
+
+.topPadding {
+    padding-top: 5px;
+}
+
+.leftFloat {
+    float: left;
+}
+
+.leftAlign {
+    text-align: left;
+}
+
+.centerAlign {
+    padding-left: 125px;
+}
+
+.rightAlign {
+    text-align: right;
+}
+
+.lineBackgroundColour {
+    background-color: #CACACA;
 }

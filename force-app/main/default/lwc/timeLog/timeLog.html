@@ -5,7 +5,7 @@
  *
  * Description: Displays the Time Log screen for Tracking Time.
  *
- * Last modified by Owen in Glic-Tech on 04-12-2021.
+ * Last modified on 05-12-2021.
 -->
 <template>
     <article class="slds-card mySpecialArticle outerColour">
@@ -72,6 +72,7 @@
                                 <div style="margin-top: 5px; margin-bottom: 5px;">
                                     <c-time-log-item 
                                         record={record}
+                                        resource-id={ResourceId}
                                         onitemupdate={RetrieveTimeLogs}>
                                     </c-time-log-item>
                                 </div>
@@ -83,6 +84,7 @@
                                 <div style="margin-top: 5px; margin-bottom: 5px;">
                                     <c-time-log-item 
                                         record={record}
+                                        resource-id={ResourceId}
                                         onitemupdate={RetrieveTimeLogs}>
                                     </c-time-log-item>
                                 </div>

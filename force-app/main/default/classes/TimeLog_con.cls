@@ -3,7 +3,7 @@
  *
  * Description: Controller class for Time Log lwc.
  *
- * Last modified on 04-12-2021.
+ * Last modified on 05-12-2021.
 */
 public without sharing class TimeLog_con {
     //
@@ -180,6 +180,20 @@ public without sharing class TimeLog_con {
         return result;
     }
 
+    /*
+    * Description: Updates the Task on the Time Log record.
+    *
+    * Last modified by Owen in Glic-Tech on 05-12-2021.
+    */
+    @AuraEnabled
+    public static Boolean UpdateTimeLogTask(String taskId){
+        Boolean result = false;
+        
+        // insert code here
+        
+        return result;
+    }
+
     //
     // --- SECTION END: timeLogItem Methods
     //
@@ -214,6 +228,121 @@ public without sharing class TimeLog_con {
     // --- SECTION END: timeLogDetail Methods
     //
 
+    //
+    // --- SECTION START: timeLogTaskSelector Methods
+    //
+
+    /*
+    * Description: Retrieves a list of eligible Projects for the current Resource to track time against.
+    *
+    * Last modified on 05-12-2021.
+    */
+    @AuraEnabled
+    public static String GetAssignedProjects(String resourceId){
+        String result = '';
+        
+        if( String.isNotBlank(resourceId) ){
+            List<String> statuses = new List<String>{
+                'Not Started',
+                'In Progress'
+            };
+
+            List<owenAde__Task_Assignment__c> assignments = [
+                SELECT
+                    Id,
+                    CreatedDate,
+                    owenAde__Task__c,
+                    owenAde__Resource__c,
+                    owenAde__Task__r.owenAde__Status__c,
+                    owenAde__Task__r.owenAde__Milestone__c,
+                    owenAde__Task__r.owenAde__Milestone__r.owenAde__Project__c
+                FROM
+                    owenAde__Task_Assignment__c
+                WHERE
+                    owenAde__Resource__c =: resourceId
+                    AND
+                    owenAde__Task__r.owenAde__Status__c =: statuses
+                ORDER BY
+                    CreatedDate ASC
+            ];
+
+            if(! assignments.isEmpty() ){ result = JSON.serialize( GroupProjects(assignments) ); }
+        }
+        
+        return result;
+    }
+
+    /*
+    * Description: Returns a list of projects based on a list of Task Assignment records.
+    *
+    * Last modified by Owen in Glic-Tech on 05-12-2021.
+    */
+    @testvisible
+    static TimeLog_con.TaskSelectionWrap GroupProjects(List<owenAde__Task_Assignment__c> records) {
+        TimeLog_con.TaskSelectionWrap result = new TimeLog_con.TaskSelectionWrap();
+
+        List<owenAde__Task__c> tasks = new List<owenAde__Task__c>();
+        List<owenAde__Project__c> projects = new List<owenAde__Project__c>();
+        List<owenAde__Milestone__c> milestones = new List<owenAde__Milestone__c>();
+        
+        Set<String> projectIds = new Set<String>();
+        Set<String> milestoneIds = new Set<String>();
+        Set<String> taskIds = new Set<String>();
+
+        for( owenAde__Task_Assignment__c ta : records ){
+            projectIds.add( ta.owenAde__Task__r.owenAde__Milestone__r.owenAde__Project__c );
+            milestoneIds.add( ta.owenAde__Task__r.owenAde__Milestone__c );
+            taskIds.add( ta.owenAde__Task__c );
+        }
+
+        result.projects = [
+            SELECT
+                Id,
+                Name,
+                owenAde__Project_Number__c
+            FROM
+                owenAde__Project__c
+            WHERE
+                Id =: projectIds
+            ORDER BY
+                owenAde__Project_Number__c ASC
+        ];
+
+        result.milestones = [
+            SELECT
+                Id,
+                Name,
+                owenAde__Project__c,
+                owenAde__Project__r.owenAde__Project_Number__c
+            FROM
+                owenAde__Milestone__c
+            WHERE
+                Id =: milestoneIds
+            ORDER BY
+                owenAde__Project__r.owenAde__Project_Number__c ASC
+        ];
+
+        result.tasks = [
+            SELECT
+                Id,
+                Name,
+                owenAde__Milestone__c,
+                owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c
+            FROM 
+                owenAde__Task__c
+            WHERE
+                Id =: taskIds
+            ORDER BY
+                owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c ASC
+        ];
+        
+        return result;
+    }
+
+    //
+    // --- SECTION END: timeLogTaskSelector Methods
+    //
+
     /*
     * Description: Wrapper class for Populatign SeedData in timeLog lwc.
     *
@@ -225,5 +354,17 @@ public without sharing class TimeLog_con {
         public String ResourceId { get; set; }
         public Date WeekStartDate { get; set; }
         public List<owenAde__Time_Log__c> TimeLogRecords { get; set; }
+    }
+
+    /*
+    * Description: Wrapper class for Task Selection.
+    *
+    * Last modified by Owen in Glic-Tech on 05-12-2021.
+    */
+    @testvisible
+    class TaskSelectionWrap {
+        public List<owenAde__Task__c> tasks { get;set; }
+        public List<owenAde__Project__c> projects  { get; set; }
+        public List<owenAde__Milestone__c> milestones { get; set; }
     }
 }

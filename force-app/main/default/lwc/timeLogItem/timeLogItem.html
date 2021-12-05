@@ -5,13 +5,19 @@
  *
  * Description: Displays a single Time Log record on the Time Log.
  *
- * Last modified by Owen in Glic-Tech on 04-12-2021.
+ * Last modified on 05-12-2021.
 -->
 <template>
     <lightning-layout>
         <lightning-layout-item size="2">
             <template if:true={isTaskSelected}>
-                <strong> Selected Task goes Here !!</strong>
+                <div class="rightPadding">
+                    <c-dynamic-pill 
+                        record-id={record.Id}
+                        pill-label={selectedTaskName}
+                        onpillremoved={FireTaskRemoval}>
+                    </c-dynamic-pill>
+                </div>
             </template>
 
             <template if:false={isTaskSelected}>
@@ -23,6 +29,7 @@
 
                 <template if:true={displayTaskSelector}>
                     <c-time-log-task-selector
+                        resource-id={resourceId}
                         onitemtaskclose={CloseTaskSelector}
                         onitemtasksave={SaveTaskSelection}>
                     </c-time-log-task-selector>

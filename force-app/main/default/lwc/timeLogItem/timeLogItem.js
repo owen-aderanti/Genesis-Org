@@ -15,7 +15,11 @@ export default class TimeLogItem extends LightningElement {
 
     isTaskSelected = false;
 
+    selectedTaskId = "";
+    selectedTaskName = "";
+
     @api record;
+    @api resourceId;
     
     /*
     * Description: Fires after every render of the component.
@@ -72,7 +76,7 @@ export default class TimeLogItem extends LightningElement {
     /*
     * Description: Fires an Update Method in the Time Log component.
     *
-    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    * Last modified on 01-12-2021.
     */
     FireUpdateEvent() {
         this.dispatchEvent( new CustomEvent('itemupdate', { detail: { } }) );
@@ -145,7 +149,7 @@ export default class TimeLogItem extends LightningElement {
     /*
     * Description: Opens the Task Selector screen.
     *
-    * Last modified by Owen in Glic-Tech on 04-12-2021.
+    * Last modified on 04-12-2021.
     */
     OpenTaskSelector() {
         this.displayTaskSelector = true;
@@ -154,7 +158,7 @@ export default class TimeLogItem extends LightningElement {
     /*
     * Description: Closes the Task Selector screen.
     *
-    * Last modified by Owen in Glic-Tech on 04-12-2021.
+    * Last modified on 04-12-2021.
     */
     CloseTaskSelector() {
         this.displayTaskSelector = false;
@@ -163,10 +167,28 @@ export default class TimeLogItem extends LightningElement {
     /*
     * Description: Saves the task selected and updates the Time Log record with selected Task.
     *
-    * Last modified by Owen in Glic-Tech on 04-12-2021.
+    * Last modified on 05-12-2021.
     */
-    SaveTaskSelection() {
+    SaveTaskSelection(evt) {
         this.displayTaskSelector = false;
         this.isTaskSelected = true;
+
+        var taskId = evt.detail.taskId;
+        var taskName = evt.detail.taskName;
+
+        this.selectedTaskId = taskId;
+        this.selectedTaskName = taskName;
+    }
+
+    /*
+    * Description: Fires when the task has been removed from the Database.
+    *
+    * Last modified on 05-12-2021.
+    */
+    FireTaskRemoval() {
+        this.isTaskSelected = false;
+
+        this.selectedTaskId = "";
+        this.selectedTaskName = "";
     }
 }
