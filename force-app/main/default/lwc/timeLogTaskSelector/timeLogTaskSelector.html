@@ -5,7 +5,7 @@
  *
  * Description: Used to select the task time is being tracked against.
  *
- * Last modified on 05-12-2021.
+ * Last modified on 07-12-2021.
 -->
 <template>
     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
@@ -78,8 +78,8 @@
                     <template if:true={displayTasks}>
                         <template for:each={filteredTasks} for:item="item">
 
-                            <template if:true={item.isEven}>
-                                <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding lineBackgroundColour" onclick={TaskSelected}>
+                            <template if:true={item.isSelected}>
+                                <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding selectedTaskColour" onclick={TaskSelected}>
                                     <strong>{item.Name}</strong>
                                     <p>
                                         {item.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c}
@@ -87,14 +87,26 @@
                                 </div>
                             </template>
 
-                            <template if:false={item.isEven}>
-                                <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding" onclick={TaskSelected}>
-                                    <strong>{item.Name}</strong>
-                                    <p>
-                                        {item.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c}
-                                    </p>
-                                </div>
+                            <template if:false={item.isSelected}>
+                                <template if:true={item.isEven}>
+                                    <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding lineBackgroundColour" onclick={TaskSelected}>
+                                        <strong>{item.Name}</strong>
+                                        <p>
+                                            {item.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c}
+                                        </p>
+                                    </div>
+                                </template>
+
+                                <template if:false={item.isEven}>
+                                    <div key={item.Id} data-value={item.Id} class="bottomBorder topPadding" onclick={TaskSelected}>
+                                        <strong>{item.Name}</strong>
+                                        <p>
+                                            {item.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c}
+                                        </p>
+                                    </div>
+                                </template>
                             </template>
+
                         </template>
                     </template>
                 </div>

@@ -8,7 +8,7 @@ import GetAssignedProjects from '@salesforce/apex/TimeLog_con.GetAssignedProject
 /*
 * Description: Applies colouring for every second row.
 *
-* Last modified on 05-12-2021.
+* Last modified on 07-12-2021.
 */
 function OrderLines(items) {
     var newItems = [];
@@ -17,6 +17,7 @@ function OrderLines(items) {
     for( var i in items ){
         var obj = items[i];
         obj["isEven"] = value;
+        obj["isSelected"] = false;
 
         newItems.push( obj );
 
@@ -63,7 +64,7 @@ export default class TimeLogTaskSelector extends LightningElement {
     /*
     * Description: Fires when a component is inserted into the DOM.
     *
-    * Last modified on 05-12-2021.
+    * Last modified on 07-12-2021.
     */
     connectedCallback() {
         if(! this.firstConnectedCallback ){ return; }
@@ -75,9 +76,10 @@ export default class TimeLogTaskSelector extends LightningElement {
         GetAssignedProjects({ resourceId: resId }).then(res => {
             if( res ){
                 var data = JSON.parse( res );
-                this.tasks = data.tasks;
+
+                this.tasks = OrderLines(data.tasks);
                 this.projects = OrderLines(data.projects);
-                this.milestones = data.milestones;
+                this.milestones = OrderLines(data.milestones);
             } else {
 
                 this.FireToaster("No Eligible Projects Found","Please ensure you are assigned to a task before tracking time","warning");
@@ -88,7 +90,7 @@ export default class TimeLogTaskSelector extends LightningElement {
     /*
     * Description: Fires after every render of the component.
     *
-    * Last modified on 04-12-2021.
+    * Last modified on 07-12-2021.
     */
     renderedCallback() {
         if(! this.firstRenderedCallback ){ return; }
@@ -186,16 +188,34 @@ export default class TimeLogTaskSelector extends LightningElement {
     /*
     * Description: Fires when task has been selected.
     *
-    * Last modified on 05-12-2021.
+    * Last modified on 07-12-2021.
     */
     TaskSelected(evt) {
         var taskId = evt.currentTarget.dataset.value;
 
-        var list = this.tasks;
+        var list = this.filteredTasks;
 
         var idx = list.findIndex( x => x.Id === taskId );
 
         var task = list[idx];
+
+        var tempList = [];
+        
+        for( var item in list ){
+            var it = list[item];
+
+            if( list[item].Id === taskId ){
+                it.isSelected = true;
+
+                tempList.push( it );
+            } else {
+                it.isSelected = false;
+
+                tempList.push( it );
+            }
+        }
+
+        this.filteredTasks = tempList;
 
         this.selectedTaskId = taskId;
         this.selectedTaskName = task.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c + ' / ' + task.Name;
@@ -204,7 +224,7 @@ export default class TimeLogTaskSelector extends LightningElement {
     /*
     * Description: Returns Users to the previous page.
     *
-    * Last modified on 05-12-2021.
+    * Last modified on 07-12-2021.
     */
     PreviousButton() {
         var isTask = this.displayTasks;
@@ -222,6 +242,11 @@ export default class TimeLogTaskSelector extends LightningElement {
             this.selectedTaskName = "";
 
             this.filteredTasks = [];
+
+            //var list = this.tasks;
+            //var idx = list.findIndex(x => x.isSelected === true);
+
+            //if( idx != -1 ){ this.tasks[idx].isSelected = false; }
         }
 
         if( isProject == true ){

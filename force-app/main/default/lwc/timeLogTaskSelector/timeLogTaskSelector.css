@@ -40,3 +40,7 @@
 .lineBackgroundColour {
     background-color: #CACACA;
 }
+
+.selectedTaskColour {
+    background-color: #64FF0F;
+}

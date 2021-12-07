@@ -5,7 +5,7 @@
  *
  * Description: Displays the Time Log screen for Tracking Time.
  *
- * Last modified on 05-12-2021.
+ * Last modified on 07-12-2021.
 -->
 <template>
     <article class="slds-card mySpecialArticle outerColour">
@@ -23,6 +23,16 @@
                     </h2>
                 </div>
                 <div class="slds-no-flex">
+                    <lightning-button
+                        label="Change Resource"
+                        title="Change Resource"
+                        variant="brand-outline"
+                        onclick={DisplayResourceSelector}>
+                    </lightning-button>
+
+                    &nbsp;
+                    &nbsp;
+
                     <lightning-button
                         label="View Details"
                         title="View Details"

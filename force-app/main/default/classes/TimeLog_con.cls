@@ -3,7 +3,7 @@
  *
  * Description: Controller class for Time Log lwc.
  *
- * Last modified on 05-12-2021.
+ * Last modified on 07-12-2021.
 */
 public without sharing class TimeLog_con {
     //
@@ -78,13 +78,20 @@ public without sharing class TimeLog_con {
     /*
     * Description: Retrieves a list of Time Log record based on the specified date and resource.
     *
-    * Last modified on 27-11-2021.
+    * Last modified on 07-12-2021.
     */
     @testvisible
     static List<owenAde__Time_Log__c> GetTimeLogs(Date weekStartDate, String resourceId) {
         List<owenAde__Time_Log__c> result = new List<owenAde__Time_Log__c>();
         
         List<String> fields = GT_Utilities.GetObjectFields('owenAde__Time_Log__c');
+
+        List<String> extraFields = new List<String>{
+            'owenAde__Task__r.Name',
+            'owenAde__Task__r.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c'
+        };
+
+        fields.addAll( extraFields );
 
         String query = 'SELECT ' + String.join(fields, ',') + ' FROM owenAde__Time_Log__c '
             + 'WHERE owenAde__Resource__c =: resourceId AND owenAde__Week_Date__c =: weekStartDate ORDER BY CreatedDate ASC';
@@ -183,13 +190,41 @@ public without sharing class TimeLog_con {
     /*
     * Description: Updates the Task on the Time Log record.
     *
-    * Last modified by Owen in Glic-Tech on 05-12-2021.
+    * Last modified by Owen in Glic-Tech on 07-12-2021.
     */
     @AuraEnabled
-    public static Boolean UpdateTimeLogTask(String taskId){
+    public static Boolean UpdateTimeLogTask(String taskId, String recordId){
         Boolean result = false;
         
-        // insert code here
+        if( String.isNotBlank(taskId) && String.isNotBlank(recordId) ){
+            String query = 'SELECT Id, owenAde__Task__c FROM owenAde__Time_Log__c WHERE Id =: recordId';
+            owenAde__Time_Log__c tl = (owenAde__Time_Log__c)Database.query(query)[0];
+
+            tl.owenAde__Task__c = taskId;
+
+            try{ update tl; result = true; } catch(Exception e){  }
+        }
+        
+        return result;
+    }
+
+    /*
+    * Description: Deletes Task from Time Log.
+    *
+    * Last modified by Owen in Glic-Tech on 07-12-2021.
+    */
+    @AuraEnabled
+    public static Boolean DeleteTaskFromTimeLogRecord(String recordId){
+        Boolean result = false;
+        
+        if( String.isNotBlank(recordId) ){
+            String query = 'SELECT Id, owenAde__Task__c from owenAde__Time_Log__c WHERE Id =: recordId';
+            owenAde__Time_Log__c tl = (owenAde__Time_Log__c)Database.query(query)[0];
+
+            tl.owenAde__Task__c = null;
+
+            try{ update tl; result = true; } catch(Exception e){  }
+        }
         
         return result;
     }

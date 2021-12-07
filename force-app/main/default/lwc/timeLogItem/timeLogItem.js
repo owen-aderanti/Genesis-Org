@@ -4,7 +4,9 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
 
 import UpdateTimeLogRecordBillable from '@salesforce/apex/TimeLog_con.UpdateTimeLogRecordBillable';
+import DeleteTaskFromTimeLogRecord from '@salesforce/apex/TimeLog_con.DeleteTaskFromTimeLogRecord';
 import DeleteTimeLogRecord from '@salesforce/apex/TimeLog_con.DeleteTimeLogRecord';
+import UpdateTimeLogTask from '@salesforce/apex/TimeLog_con.UpdateTimeLogTask';
 
 export default class TimeLogItem extends LightningElement {
     firstConnectedCallback = true;
@@ -47,7 +49,7 @@ export default class TimeLogItem extends LightningElement {
     /*
     * Description: Fires after every render of the component.
     *
-    * Last modified on 04-12-2021.
+    * Last modified on 07-12-2021.
     */
     renderedCallback() {
         if(! this.firstRenderedCallback ){ return; }
@@ -55,6 +57,14 @@ export default class TimeLogItem extends LightningElement {
         this.firstRenderedCallback = false;
 
         this.template.querySelector("lightning-input").checked = this.record.owenAde__Billable__c;
+
+        var taskValue = this.record.owenAde__Task__c;
+
+        if( (taskValue != null) && (taskValue != undefined) ){
+            this.isTaskSelected = true;
+            this.selectedTaskId = taskValue;
+            this.selectedTaskName = this.record.owenAde__Task__r.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c + ' / ' + this.record.owenAde__Task__r.Name;
+        }
     }
     
     /*
@@ -167,7 +177,7 @@ export default class TimeLogItem extends LightningElement {
     /*
     * Description: Saves the task selected and updates the Time Log record with selected Task.
     *
-    * Last modified on 05-12-2021.
+    * Last modified on 07-12-2021.
     */
     SaveTaskSelection(evt) {
         this.displayTaskSelector = false;
@@ -178,17 +188,37 @@ export default class TimeLogItem extends LightningElement {
 
         this.selectedTaskId = taskId;
         this.selectedTaskName = taskName;
+
+        UpdateTimeLogTask({ taskId: taskId, recordId: this.record.Id }).then( res => {
+            if( res == true ){
+                this.FireUpdateEvent();
+            }
+
+            if( res == false ){
+                this.FireToaster("Something went wrong","Please contact your System Administrator for more information","error");
+            }
+        });
     }
 
     /*
     * Description: Fires when the task has been removed from the Database.
     *
-    * Last modified on 05-12-2021.
+    * Last modified on 07-12-2021.
     */
     FireTaskRemoval() {
         this.isTaskSelected = false;
 
         this.selectedTaskId = "";
         this.selectedTaskName = "";
+
+        DeleteTaskFromTimeLogRecord({ recordId: this.record.Id }).then( res => {
+            if( res == true ){
+                this.FireUpdateEvent();
+            }
+
+            if( res == false ){
+                this.FireToaster("Something went wrong","Please contact your System Administrator for more information","error");
+            } 
+        });
     }
 }

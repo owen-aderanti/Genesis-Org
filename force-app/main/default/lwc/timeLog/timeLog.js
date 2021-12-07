@@ -42,37 +42,34 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Fires after every render of the component.
     *
-    * Last modified on 27-11-2021.
+    * Last modified on 07-12-2021.
     */
     @wire(CurrentPageReference)
     params( pageRef ) {
         if( pageRef ) {
-            // insert code here
+
+            this.TimeLogs = [];
+            this.WeekStartDate = null;
+            this.WeekEndDate = null;
+            this.ResourceId = "";
+
+            if( this.firstConnectedCallback == false ){
+                this.PopulateSeedData();
+            }
         }
     }
     
     /*
     * Description: Fires when a component is inserted into the DOM.
     *
-    * Last modified on 04-12-2021.
+    * Last modified on 07-12-2021.
     */
     connectedCallback() {
         if(! this.firstConnectedCallback ){ return; }
         
         this.firstConnectedCallback = false;
 
-        var that = this;
-
-        SeedData({}).then(res => {
-            if( res != '' ){
-                var data = JSON.parse( res );
-
-                that.ResourceId = data.ResourceId;
-                that.TimeLogs = OrderLines(data.TimeLogRecords);
-                that.WeekEndDate  = data.WeekEndDate;
-                that.WeekStartDate = data.WeekStartDate;
-            }
-        });
+        this.PopulateSeedData();
     }
     
     /*
@@ -170,7 +167,7 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Retrieve fresh list of Time Log records from Database.
     *
-    * Last modified by Owen in Glic-Tech on 04-12-2021.
+    * Last modified on 04-12-2021.
     */
     RetrieveTimeLogs() {
         var resourceId = this.ResourceId;
@@ -185,5 +182,34 @@ export default class TimeLog extends LightningElement {
                 that.TimeLogs = OrderLines(data);
             }
         });
+    }
+
+    /*
+    * Description: Populates SeedData into the LWC.
+    *
+    * Last modified on 07-12-2021.
+    */
+    PopulateSeedData() {
+        var that = this;
+
+        SeedData({ }).then(res => {
+            if( res != '' ){
+                var data = JSON.parse( res );
+
+                that.ResourceId = data.ResourceId;
+                that.TimeLogs = OrderLines(data.TimeLogRecords);
+                that.WeekEndDate  = data.WeekEndDate;
+                that.WeekStartDate = data.WeekStartDate;
+            }
+        });
+    }
+
+    /*
+    * Description: Displays the Resource selector screen.
+    *
+    * Last modified by Owen in Glic-Tech on 07-12-2021.
+    */
+    DisplayResourceSelector() {
+        // insert code here
     }
 }

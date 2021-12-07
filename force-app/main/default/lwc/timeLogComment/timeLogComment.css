@@ -1,5 +1,5 @@
 :host {
-    --sds-c-textarea-sizing-min-height: 100px;
+    --sds-c-textarea-sizing-min-height: 200px;
 }
 
 .textMargin {
@@ -9,4 +9,5 @@
 
 .bodyColour {
     background-color: #CACACA;
+    font-weight: 600;
 }
