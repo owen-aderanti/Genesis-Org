@@ -3,7 +3,7 @@
  *
  * Description: Controller class for Time Log lwc.
  *
- * Last modified on 07-12-2021.
+ * Last modified on 08-12-2021.
 */
 public without sharing class TimeLog_con {
     //
@@ -127,7 +127,7 @@ public without sharing class TimeLog_con {
     /*
     * Description: Retrieves a list of Time Log records from the Database based on the Resource Id and Week Start Date.
     *
-    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    * Last modified on 01-12-2021.
     */
     @AuraEnabled
     public static String RetrieveTimeLogRecords(String weekDate, String resourceId){
@@ -190,7 +190,7 @@ public without sharing class TimeLog_con {
     /*
     * Description: Updates the Task on the Time Log record.
     *
-    * Last modified by Owen in Glic-Tech on 07-12-2021.
+    * Last modified on 07-12-2021.
     */
     @AuraEnabled
     public static Boolean UpdateTimeLogTask(String taskId, String recordId){
@@ -211,7 +211,7 @@ public without sharing class TimeLog_con {
     /*
     * Description: Deletes Task from Time Log.
     *
-    * Last modified by Owen in Glic-Tech on 07-12-2021.
+    * Last modified on 07-12-2021.
     */
     @AuraEnabled
     public static Boolean DeleteTaskFromTimeLogRecord(String recordId){
@@ -240,7 +240,7 @@ public without sharing class TimeLog_con {
     /*
     * Description: Updates the Time Log Record with the Hours and Comment.
     *
-    * Last modified by Owen in Glic-Tech on 01-12-2021.
+    * Last modified on 01-12-2021.
     */
     @AuraEnabled
     public static Boolean UpdateTimeLogRecord(String recordId, String commentField, String hourField, String comment, Decimal hours){
@@ -310,7 +310,7 @@ public without sharing class TimeLog_con {
     /*
     * Description: Returns a list of projects based on a list of Task Assignment records.
     *
-    * Last modified by Owen in Glic-Tech on 05-12-2021.
+    * Last modified on 05-12-2021.
     */
     @testvisible
     static TimeLog_con.TaskSelectionWrap GroupProjects(List<owenAde__Task_Assignment__c> records) {
@@ -378,6 +378,38 @@ public without sharing class TimeLog_con {
     // --- SECTION END: timeLogTaskSelector Methods
     //
 
+    //
+    // --- SECTION START: timeLogChangeresource Methods
+    //
+
+    /*
+    * Description: Retrieves a list of Resources.
+    *
+    * Last modified on 08-12-2021.
+    */
+    @AuraEnabled
+    public static String GetResources(){
+        String result = '';
+        
+        List<owenAde__Resource__c> resources = [
+            SELECT
+                Id,
+                Name
+            FROM
+                owenAde__Resource__c
+            ORDER BY
+                Name ASC
+        ];
+
+        if(! resources.isEmpty() ){ result = JSON.serialize( resources ); }
+        
+        return result;
+    }
+
+    //
+    // --- SECTION START: timeLogChangeresource Methods
+    //
+
     /*
     * Description: Wrapper class for Populatign SeedData in timeLog lwc.
     *
@@ -394,7 +426,7 @@ public without sharing class TimeLog_con {
     /*
     * Description: Wrapper class for Task Selection.
     *
-    * Last modified by Owen in Glic-Tech on 05-12-2021.
+    * Last modified on 05-12-2021.
     */
     @testvisible
     class TaskSelectionWrap {

@@ -5,7 +5,7 @@
  *
  * Description: Displays the Time Log screen for Tracking Time.
  *
- * Last modified on 07-12-2021.
+ * Last modified on 08-12-2021.
 -->
 <template>
     <article class="slds-card mySpecialArticle outerColour">
@@ -125,4 +125,12 @@
             </div>
         </footer>
     </article>
+
+    <template if:true={OpenChangeResource}>
+        <c-time-log-change-resource
+            resource-id={ResourceId}
+            onresourceclose={HideResourceSelector}
+            onresourcechange={ChangeResourceAndTimeLogs}>
+        </c-time-log-change-resource>
+    </template>
 </template>

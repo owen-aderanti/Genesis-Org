@@ -1,0 +1,35 @@
+.mySpecialBody {
+    height: 400px;
+    font-size: 16px;
+    background-color: #CACACA;
+}
+
+.mySpecialBox {
+    height: 365px;
+    overflow: auto;
+    background-color: white;
+}
+
+.lineBackgroundColour {
+    background-color: #CACACA;
+}
+
+.selectedResourceColour {
+    background-color: #64FF0F;
+}
+
+.currentResourceColour {
+    background-color: #1FCBFF;
+}
+
+.topPadding {
+    padding-top: 15px;
+}
+
+.bottomPadding {
+    padding-bottom: 15px;
+}
+
+.bottomBorder {
+    border-bottom: 1px solid black;
+}

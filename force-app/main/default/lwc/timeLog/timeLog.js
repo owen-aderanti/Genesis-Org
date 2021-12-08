@@ -38,6 +38,7 @@ export default class TimeLog extends LightningElement {
     TimeLogs = [];
 
     OpenViewDetails = false;
+    OpenChangeResource = false;
 
     /*
     * Description: Fires after every render of the component.
@@ -167,13 +168,15 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Retrieve fresh list of Time Log records from Database.
     *
-    * Last modified on 04-12-2021.
+    * Last modified on 08-12-2021.
     */
     RetrieveTimeLogs() {
         var resourceId = this.ResourceId;
         var weekDate = this.WeekStartDate;
 
         var that = this;
+
+        this.TimeLogs = [];
 
         RetrieveTimeLogRecords({ weekDate: weekDate, resourceId: resourceId }).then(res => {
             if( res ){
@@ -207,9 +210,33 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Displays the Resource selector screen.
     *
-    * Last modified by Owen in Glic-Tech on 07-12-2021.
+    * Last modified on 08-12-2021.
     */
     DisplayResourceSelector() {
-        // insert code here
+        this.OpenChangeResource = true;
+    }
+
+    /*
+    * Description: Hides the Resource Selector screen.
+    *
+    * Last modified on 08-12-2021.
+    */
+    HideResourceSelector() {
+        this.OpenChangeResource = false;
+    }
+
+    /*
+    * Description: Changes the Resource and Time Log records based on new Resource selected.
+    *
+    * Last modified on 08-12-2021.
+    */
+    ChangeResourceAndTimeLogs(evt) {
+        this.ResourceId = evt.detail.selectedResourceId;
+
+        console.log( this.ResourceId );
+
+        this.OpenChangeResource = false;
+
+        this.RetrieveTimeLogs();
     }
 }

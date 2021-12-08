@@ -1,0 +1,86 @@
+<!--
+ * Created on 08-12-2021.
+ *
+ * Lightning Web Component Name: c-time-log-change-resource.
+ *
+ * Description: Used to change the current resource on the Time Log, to see other's time entries.
+ *
+ * Last modified on 08-12-2021.
+-->
+<template>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            
+            <!-- SECTION: Header -->
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={Close}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        variant="inverse"
+                        alternative-text="Close">
+                    </lightning-icon>
+                </button>
+                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                    Resource Selector
+                </h2>
+            </header>
+            
+            <!-- SECTION: Body -->
+            <div class="slds-modal__content slds-p-around_medium mySpecialBody" id="modal-content-id-1">
+                <div class="slds-box mySpecialBox">
+                    <template for:each={ListOfResources} for:item="resource">
+                        <template if:true={resource.isCurrent}>
+                            <div key={resource.Id} data-value={resource.Id} class="topPadding bottomPadding bottomBorder currentResourceColour" onclick={HandleResourceClick}>
+                                <strong> {resource.Name} </strong>
+                            </div>
+                        </template>
+
+                        <template if:false={resource.isCurrent}>
+                            <template if:true={resource.isSelected}>
+                                <div key={resource.Id} data-value={resource.Id} class="topPadding bottomPadding bottomBorder selectedResourceColour" onclick={HandleResourceClick}>
+                                    <strong> {resource.Name} </strong>
+                                </div>
+                            </template>
+
+                            <template if:false={resource.isSelected}>
+                                <template if:true={resource.isEven}>
+                                    <div key={resource.Id} data-value={resource.Id} class="topPadding bottomPadding bottomBorder lineBackgroundColour" onclick={HandleResourceClick}>
+                                        <strong> {resource.Name} </strong>
+                                    </div>
+                                </template>
+    
+                                <template if:false={resource.isEven}>
+                                    <div key={resource.Id} data-value={resource.Id} class="topPadding bottomPadding bottomBorder" onclick={HandleResourceClick}>
+                                        <strong> {resource.Name} </strong>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+
+                    </template>
+                </div>
+            </div>
+            
+            <!-- SECTION: Footer -->
+            <footer class="slds-modal__footer">
+                <div style="float: left;">
+                    <button 
+                        onclick={Close}
+                        class="slds-button slds-button_destructive">
+                        Cancel
+                    </button>
+                </div>
+                
+                <div style="text-align: right;">
+                    <button 
+                        onclick={UpdateToResourceSelected}
+                        class="slds-button slds-button_brand">
+                        Save
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </section>
+    
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
