@@ -5,10 +5,15 @@
  *
  * Description: Displays the Time Log screen for Tracking Time.
  *
- * Last modified on 08-12-2021.
+ * Last modified on 13-12-2021.
 -->
 <template>
     <article class="slds-card mySpecialArticle outerColour">
+        <!--
+            *
+            * SECTION: LWC Header
+            *
+         -->
         <div class="slds-card__header slds-grid">
             <header class="slds-media slds-media_center slds-has-flexi-truncate mySpecialHeader">
                 <div class="slds-media__figure">
@@ -23,6 +28,16 @@
                     </h2>
                 </div>
                 <div class="slds-no-flex">
+                    <lightning-input 
+                        type="date" 
+                        name="myDatePicker" 
+                        value={WeekStartDate}
+                        variant="label-hidden" >
+                    </lightning-input>
+
+                    &nbsp;
+                    &nbsp;
+
                     <lightning-button
                         label="Change Resource"
                         title="Change Resource"
@@ -42,6 +57,12 @@
                 </div>
             </header>
         </div>
+
+        <!--
+            *
+            * SECTION: LWC Body
+            *
+         -->
         <div class="slds-card__body slds-card__body_inner mySpecialBody">
             <!-- HEADINGS -->
             <div class="">
@@ -105,6 +126,11 @@
             </div>
         </div>
 
+        <!--
+            *
+            * SECTION: LWC Footer
+            *
+         -->
         <footer class="slds-card__footer mySpecialFooter">
             <div class="buttons-aligned_left">
                 <lightning-button
@@ -126,6 +152,11 @@
         </footer>
     </article>
 
+    <!--
+        *
+        * SECTION: Resource Selector Popup
+        *
+     -->
     <template if:true={OpenChangeResource}>
         <c-time-log-change-resource
             resource-id={ResourceId}

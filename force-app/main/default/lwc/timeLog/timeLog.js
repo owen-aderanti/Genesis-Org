@@ -168,15 +168,13 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Retrieve fresh list of Time Log records from Database.
     *
-    * Last modified on 08-12-2021.
+    * Last modified on 13-12-2021.
     */
     RetrieveTimeLogs() {
         var resourceId = this.ResourceId;
         var weekDate = this.WeekStartDate;
 
         var that = this;
-
-        this.TimeLogs = [];
 
         RetrieveTimeLogRecords({ weekDate: weekDate, resourceId: resourceId }).then(res => {
             if( res ){
@@ -228,15 +226,22 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Changes the Resource and Time Log records based on new Resource selected.
     *
-    * Last modified on 08-12-2021.
+    * Last modified on 13-12-2021.
     */
     ChangeResourceAndTimeLogs(evt) {
         this.ResourceId = evt.detail.selectedResourceId;
 
-        console.log( this.ResourceId );
-
         this.OpenChangeResource = false;
 
         this.RetrieveTimeLogs();
+    }
+
+    /*
+    * Description: Change current week.
+    *
+    * Last modified on 13-12-2021.
+    */
+    ChangeWeek(evt) {
+        // insert code here
     }
 }
