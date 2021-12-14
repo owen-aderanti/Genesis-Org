@@ -4,6 +4,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
 
 import SeedData from '@salesforce/apex/TimeLog_con.SeedData';
+import ChangeWeekDate from '@salesforce/apex/TimeLog_con.ChangeWeekDate';
 import RetrieveTimeLogRecords from '@salesforce/apex/TimeLog_con.RetrieveTimeLogRecords';
 import CreateNewTimeLogRecord from '@salesforce/apex/TimeLog_con.CreateNewTimeLogRecord';
 
@@ -239,9 +240,17 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Change current week.
     *
-    * Last modified on 13-12-2021.
+    * Last modified on 14-12-2021.
     */
     ChangeWeek(evt) {
-        // insert code here
+        var selectedDate = evt.currentTarget.value;
+
+        ChangeWeekDate({ value: selectedDate }).then(res => {
+            if( res ){
+                this.WeekStartDate = res;
+
+                this.RetrieveTimeLogs();
+            }
+        });
     }
 }

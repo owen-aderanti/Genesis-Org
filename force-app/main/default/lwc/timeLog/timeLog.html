@@ -5,7 +5,7 @@
  *
  * Description: Displays the Time Log screen for Tracking Time.
  *
- * Last modified on 13-12-2021.
+ * Last modified on 14-12-2021.
 -->
 <template>
     <article class="slds-card mySpecialArticle outerColour">
@@ -33,7 +33,8 @@
                             type="date" 
                             name="myDatePicker" 
                             value={WeekStartDate}
-                            variant="label-hidden" >
+                            variant="label-hidden"
+                            onchange={ChangeWeek} >
                         </lightning-input>
                     </div>
                     
@@ -71,7 +72,7 @@
                 <lightning-layout multiple-rows="true">
                     <lightning-layout-item size="2"><strong style="font-size: 16px;">Task</strong></lightning-layout-item>
 
-                    <lightning-layout-item size="1"><strong style="font-size: 16px;">Billable</strong></lightning-layout-item>
+                    <lightning-layout-item size="1" class="align-text_center"><strong style="font-size: 16px;">Billable</strong></lightning-layout-item>
 
                     <lightning-layout-item size="1"><strong style="font-size: 16px;">Mon</strong></lightning-layout-item>
 

@@ -3,7 +3,7 @@
  *
  * Description: Controller class for Time Log lwc.
  *
- * Last modified on 08-12-2021.
+ * Last modified on 14-12-2021.
 */
 public without sharing class TimeLog_con {
     //
@@ -50,13 +50,13 @@ public without sharing class TimeLog_con {
     /*
     * Description: Retrieves date of the first day of the current working week.
     *
-    * Last modified on 27-11-2021.
+    * Last modified on 14-12-2021.
     */
     @testvisible
     static Date GetCurrentWeekStart() {
         Date result = Date.today();
         
-        Datetime dt1 = Datetime.now();
+        /*Datetime dt1 = Datetime.now();
 
         Map<String, Integer> dayMap = new Map<String, Integer>{
             'Mon' => 0,
@@ -70,7 +70,9 @@ public without sharing class TimeLog_con {
 
         Integer diff = dayMap.get( dt1.format('EEE') );
 
-        result = Date.today().addDays( (diff * -1) );
+        result = Date.today().addDays( (diff * -1) );*/
+
+        result = GetWeekStartFromDate(result);
         
         return result;
     }
@@ -137,6 +139,48 @@ public without sharing class TimeLog_con {
 
         result = JSON.serialize( GetTimeLogs(weekStartDate, resourceId) );
 
+        return result;
+    }
+
+    /*
+    * Description: Returns week start date based on selected date provided.
+    *
+    * Last modified on 14-12-2021.
+    */
+    @testvisible
+    static Date GetWeekStartFromDate(Date value) {
+        Date result = value;
+
+        Map<String, Integer> dayMap = new Map<String, Integer>{
+            'Mon' => 0,
+            'Tue' => 1,
+            'Wed' => 2,
+            'Thu' => 3,
+            'Fri' => 4,
+            'Sat' => 5,
+            'Sun' => 6
+        };
+
+        Datetime dt1 = Datetime.newInstance(value, Time.newInstance(0,0,0,0) );
+
+        Integer diff = dayMap.get( dt1.format('EEE') );
+
+        result = value.addDays( (diff * -1) );
+        
+        return result;
+    }
+
+    /*
+    * Description: Returns the week start date date based on the date provided.
+    *
+    * Last modified on 14-12-2021.
+    */
+    @AuraEnabled
+    public static Date ChangeWeekDate(Date value){
+        Date result = value;
+
+        if( value != null ){ result = GetWeekStartFromDate( value ); }
+        
         return result;
     }
 
