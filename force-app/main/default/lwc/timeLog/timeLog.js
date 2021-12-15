@@ -240,7 +240,7 @@ export default class TimeLog extends LightningElement {
     /*
     * Description: Change current week.
     *
-    * Last modified on 14-12-2021.
+    * Last modified on 15-12-2021.
     */
     ChangeWeek(evt) {
         var selectedDate = evt.currentTarget.value;
