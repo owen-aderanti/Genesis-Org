@@ -149,15 +149,6 @@ export default class TimeLog extends LightningElement {
     }
 
     /*
-    * Description: Submits Time Log record for Approval.
-    *
-    * Last modified on 30-11-2021.
-    */
-    SubmitLines() {
-        // insert code here
-    }
-
-    /*
     * Description: Opens View Details component.
     *
     * Last modified on 30-11-2021.
@@ -252,5 +243,14 @@ export default class TimeLog extends LightningElement {
                 this.RetrieveTimeLogs();
             }
         });
+    }
+
+    /*
+    * Description: Submits the Time Log records for approval.
+    *
+    * Last modified by Owen in Glic-Tech on 22-01-2022.
+    */
+    SubmitTimeLogs(evt) {
+        
     }
 }

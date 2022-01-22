@@ -3,7 +3,7 @@
  *
  * Description: Controller class for Time Log lwc.
  *
- * Last modified on 14-12-2021.
+ * Last modified on 22-01-2022.
 */
 public without sharing class TimeLog_con {
     //
@@ -80,7 +80,7 @@ public without sharing class TimeLog_con {
     /*
     * Description: Retrieves a list of Time Log record based on the specified date and resource.
     *
-    * Last modified on 07-12-2021.
+    * Last modified on 22-12-2022.
     */
     @testvisible
     static List<owenAde__Time_Log__c> GetTimeLogs(Date weekStartDate, String resourceId) {
@@ -90,7 +90,8 @@ public without sharing class TimeLog_con {
 
         List<String> extraFields = new List<String>{
             'owenAde__Task__r.Name',
-            'owenAde__Task__r.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c'
+            'owenAde__Task__r.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Number__c',
+            'owenAde__Task__r.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Manager__r.owenAde__User__c'
         };
 
         fields.addAll( extraFields );
@@ -268,6 +269,28 @@ public without sharing class TimeLog_con {
             tl.owenAde__Task__c = null;
 
             try{ update tl; result = true; } catch(Exception e){  }
+        }
+        
+        return result;
+    }
+
+    /*
+    * Description: Submits the Time Log record for Approval.
+    *
+    * Last modified by Owen in Glic-Tech on 22-01-2022.
+    */
+    @AuraEnabled
+    public static Boolean SubmitTimeLogForApproval(String recordId, String approverId){
+        Boolean result = false;
+        
+        if( String.isNotBlank(recordId) && String.isNotBlank(approverId) ){
+            Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
+            req.setObjectId( recordId );
+            req.setNextApproverIds( new List<String>{ approverId } );
+
+            Approval.ProcessResult res = Approval.process( req );
+
+            result = res.isSuccess();
         }
         
         return result;

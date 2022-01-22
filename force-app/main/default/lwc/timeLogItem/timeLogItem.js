@@ -3,10 +3,12 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
 
-import UpdateTimeLogRecordBillable from '@salesforce/apex/TimeLog_con.UpdateTimeLogRecordBillable';
-import DeleteTaskFromTimeLogRecord from '@salesforce/apex/TimeLog_con.DeleteTaskFromTimeLogRecord';
-import DeleteTimeLogRecord from '@salesforce/apex/TimeLog_con.DeleteTimeLogRecord';
 import UpdateTimeLogTask from '@salesforce/apex/TimeLog_con.UpdateTimeLogTask';
+import DeleteTimeLogRecord from '@salesforce/apex/TimeLog_con.DeleteTimeLogRecord';
+import SubmitTimeLogForApproval from '@salesforce/apex/TimeLog_con.SubmitTimeLogForApproval';
+import DeleteTaskFromTimeLogRecord from '@salesforce/apex/TimeLog_con.DeleteTaskFromTimeLogRecord';
+import UpdateTimeLogRecordBillable from '@salesforce/apex/TimeLog_con.UpdateTimeLogRecordBillable';
+import OptionsThreadedDiscussionsEnabled from '@salesforce/schema/Network.OptionsThreadedDiscussionsEnabled';
 
 export default class TimeLogItem extends LightningElement {
     firstConnectedCallback = true;
@@ -220,5 +222,30 @@ export default class TimeLogItem extends LightningElement {
                 this.FireToaster("Something went wrong","Please contact your System Administrator for more information","error");
             } 
         });
+    }
+
+    /*
+    * Description: Submits the Time Log record for submission if the record is eligible.
+    *
+    * Last modified by Owen in Glic-Tech on 22-01-2022.
+    */
+    @api ApprovalSubmission() {
+        var recordId = this.recordId;
+        var status = this.record.Approval_Status__c;
+        var approverId = this.record.owenAde__Task__r.owenAde__Milestone__r.owenAde__Project__r.owenAde__Project_Manager__r.owenAde__User__c;
+
+        if( recordId != undefined && approverId != undefined ){
+            if( status != "Pending Approval" && status != "Approved" ){
+                SubmitTimeLogForApproval({ recordId: recordId, approvedId: approverId }).then(res => {
+                    if( res == true ){
+                        this.FireUpdateEvent();
+                    }
+
+                    if( res == false ){
+                        this.FireToaster('Error submitting record for Approval', 'Please contact your System Administrator for more information', 'error');
+                    }
+                });
+            }
+        }
     }
 }
